@@ -2,6 +2,9 @@ parameters:
   projects: '**/*.csproj'
   testProjects: 'test/**/*.csproj'
   buildConfiguration: 'Release'
+  stagingDirectory: ''
+  artifactName: 'drop'
+  publishLocation: 'Container'
 
 steps:
 - task: UseDotNet@2
@@ -30,3 +33,9 @@ steps:
     command: test
     projects: ${{ parameters.testProjects }}
     arguments: '--configuration ${{ parameters.buildConfiguration }}'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: ${{ parameters.stagingDirectory }}
+    ArtifactName: ${{ parameters.artifactName }}
+    publishLocation: ${{ parameters.publishLocation }}
+
